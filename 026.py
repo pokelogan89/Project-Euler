@@ -1,27 +1,24 @@
-from math import floor
-from decimal import *
+import numpy as np
 
 def main(num):
-    max = (0,0)
-    sequence_length = 0
+    max_val = (0,0)
     for i in range(2,num):
-        if sequence_length >= i:
-            break
-        found_remainders = []
+        path = np.zeros(num)
         value = 1
-        position = 0
+        pos = 0
 
-        while found_remainders[value] == 0 and value != 0:
-            found_remainders[value] = position
+        while path[value] == 0 and value != 0:
+            if max_val[1] > i:
+                break
+
+            path[value] = pos
             value *= 10
             value %= i
-            position += 1
-        
-        if position - found_remainders[value] > sequence_length:
-            sequence_length = i
-            max = (i,sequence_length)
-        
-    print(max)
+            pos += 1
+        if path[value] == 1 and pos > max_val[1] + 1:
+            max_val = (i,pos - 1)
+
+    print(max_val)
     return None
 
-main(1000)
+main(20)
